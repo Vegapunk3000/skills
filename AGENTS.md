@@ -35,3 +35,22 @@ Use local install tests before telling the team to update:
 npx skills add . --skill plan-it --agent <agent-name>
 npx skills add . --skill plan-it --agent claude-code
 ```
+
+## Cursor Cloud specific instructions
+
+Cloud Agents run on Linux. Validate from the repository root with:
+
+```bash
+pwsh -NoLogo -File ./scripts/validate-skills.ps1
+npx skills add . --list
+```
+
+PowerShell 7 comes from the environment install. The Skills CLI needs Node.js 22.20 or newer.
+
+`npx skills add` and `scripts/install-local.ps1` write agent skill folders and `skills-lock.json` into the current directory. This repository does not ignore those files. Run install checks from a temporary directory so the skills tree stays unchanged:
+
+```bash
+repo="$(pwd)"
+cd "$(mktemp -d)"
+pwsh -NoLogo -File "$repo/scripts/install-local.ps1" -Skills plan-it -Agents claude-code -Yes
+```
